@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-'use strict';
-var Liftoff = require('liftoff');
-var prettyTime = require('pretty-hrtime');
-var chalk = require('chalk');
 
-var GruntCLI = new Liftoff({
+const Liftoff = require('liftoff');
+const prettyTime = require('pretty-hrtime');
+const chalk = require('chalk');
+
+const GruntCLI = new Liftoff({
   name: 'gruntnext',
   cwdFlag: 'base'
 }).on('require', function (name, module) {

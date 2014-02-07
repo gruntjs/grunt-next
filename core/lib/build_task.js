@@ -1,5 +1,5 @@
-var Promise = require('bluebird');
-var _ = require('lodash');
+const Promise = require('bluebird');
+const _ = require('lodash');
 
 module.exports = function (opts) {
   var config = this.config;

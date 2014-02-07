@@ -1,4 +1,4 @@
-var buildTask = require('./build_task');
+const buildTask = require('./build_task');
 
 module.exports = function (config) {
   var name = config.name;
