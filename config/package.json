@@ -1,0 +1,19 @@
+{
+  "name": "grunt-core-config",
+  "description": "Grunt Next",
+  "version": "0.6.0",
+  "main": "index.js",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "keywords": [],
+  "dependencies": {
+    "adjunct": "~0.2.0",
+    "expander": "~0.2.2",
+    "configfiles": "~0.3.0"
+  },
+  "devDependencies": {
+    "grunt-contrib-nodeunit": "~0.3.0",
+    "grunt-contrib-jshint": "~0.8.0"
+  }
+}
