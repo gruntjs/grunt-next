@@ -27,6 +27,9 @@
   "engines": {
     "node": ">= 0.10.0"
   },
+  "scripts": {
+    "test": "mocha -R spec test/index.js"
+  },
   "keywords": [],
   "dependencies": {
     "liftoff": "~0.8.3",
@@ -38,8 +41,8 @@
     "bluebird": "~1.0.3"
   },
   "devDependencies": {
-    "coffee-script": "~1.7.1",
-    "grunt-contrib-nodeunit": "~0.3.0",
-    "grunt-contrib-jshint": "~0.8.0"
+    "grunt-contrib-jshint": "~0.8.0",
+    "chai": "~1.9.0",
+    "mocha": "~1.17.1"
   }
 }

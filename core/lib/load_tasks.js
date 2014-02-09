@@ -1,7 +1,9 @@
 const fs = require('fs');
 const path = require('path');
+const parseArgs = require('./utils/parse_args');
 
-const loadTasks = function (dir) {
+const loadTasks = function () {
+  var dir = parseArgs(arguments);
   if(Array.isArray(dir)) {
     return dir.map(loadTasks);
   } else {
