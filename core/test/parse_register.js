@@ -1,21 +1,21 @@
-const parseTask = require('../lib/parse_task');
+const parseRegister = require('../lib/parse_register');
 
-describe('parseTask', function () {
+describe('parseRegister', function () {
 
   it('should support two arguments with a function', function () {
     var noop = function () {};
-    var task = parseTask('test', noop);
+    var task = parseRegister(['test', noop]);
 
     expect(task).to.deep.equal({
       name: 'test',
-      desc: 'Task',
+      desc: 'Custom Task',
       fn: noop,
       deps: null
     });
   });
 
   it('should support two arguments with a deps string', function () {
-    var task = parseTask('test', 'default');
+    var task = parseRegister(['test', 'default']);
 
     expect(task).to.deep.equal({
       name: 'test',
@@ -26,7 +26,7 @@ describe('parseTask', function () {
   });
 
   it('should support two arguments with a deps array', function () {
-    var task = parseTask('test', ['dep1', 'dep2']);
+    var task = parseRegister(['test', ['dep1', 'dep2']]);
 
     expect(task).to.deep.equal({
       name: 'test',
@@ -38,7 +38,7 @@ describe('parseTask', function () {
 
   it('should support three arguments with a description', function () {
     var noop = function () {};
-    var task = parseTask('test', 'test task', noop);
+    var task = parseRegister(['test', 'test task', noop]);
 
     expect(task).to.deep.equal({
       name: 'test',

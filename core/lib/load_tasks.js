@@ -1,22 +1,18 @@
-const fs = require('fs');
-const path = require('path');
-const parseArgs = require('./utils/parse_args');
+// Given an array of files, this requires each, expecting to get a function.
+// If one is found, it will be invoked with the provided context.  This is
+// how grunt is passed into
+// module.exports = function (grunt) { ... }
 
-const loadTasks = function () {
-  var dir = parseArgs(arguments);
-  if(Array.isArray(dir)) {
-    return dir.map(loadTasks);
-  } else {
-    if(fs.existsSync(dir)) {
-      fs.readdirSync(dir).forEach(function (task) {
-        var taskPath = path.resolve(dir, task);
-        if(!fs.lstatSync(taskPath).isDirectory()) {
-          require(taskPath)(this);
-        }
-      }, this);
+// If you are building a tool that will have an ecosystem of plugins, please
+// do NOT do this.  Tightly coupling plugins with the modules that consume
+// them makes it a giant pain in the ass to change the plugin consumer (in
+// this case grunt) without breaking the entire ecosystem.
+
+module.exports = function (tasks, context) {
+  tasks.forEach(function (taskFile) {
+    var task = require(taskFile);
+    if (typeof task === 'function') {
+      task.call(null, context);
     }
-  }
-  return this;
+  });
 };
-
-module.exports = loadTasks;
