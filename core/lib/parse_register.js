@@ -1,11 +1,10 @@
 // This normalizes the different forms of registerTask and registerMultiTask.
 
-module.exports = function (config) {
+module.exports = function (config, type) {
   var arity = config.length;
   var name = config[0];
   var desc = 'Custom Task';
   var fn = null;
-  var deps = null;
 
   // support registerTask('name', 'desc', function () { ... });
   if (arity === 3) {
@@ -17,12 +16,13 @@ module.exports = function (config) {
       fn = config[1];
     } else {
       // support registerTask('name', ['task', task', 'task']);
-      if(!Array.isArray(config[1])) {
-        deps = [config[1]];
+      if (!Array.isArray(config[1])) {
+        fn = [config[1]];
       } else {
-        deps = config[1];
+        fn = config[1];
       }
-      desc = 'Alias for "'+deps.join('", "')+'" task'+(deps.length=== 1?'':'s')+'.';
+      type = 'alias';
+      desc = 'Alias for "'+fn.join('", "')+'" task'+(fn.length=== 1?'':'s')+'.';
     }
   } else {
     throw new Error('Unable to register task.');
@@ -31,7 +31,7 @@ module.exports = function (config) {
   return {
     name: name,
     desc: desc,
-    deps: deps,
+    type: type,
     fn: fn
   };
 };

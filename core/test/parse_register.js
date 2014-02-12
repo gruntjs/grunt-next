@@ -5,14 +5,14 @@ const parseRegister = require('../lib/parse_register');
 describe('parseRegister', function () {
 
   it('should support two arguments with a function', function () {
-    var noop = function () {};
-    var task = parseRegister(['test', noop]);
+    var fn = function () {};
+    var task = parseRegister(['test', fn], 'single');
 
     expect(task).to.deep.equal({
       name: 'test',
       desc: 'Custom Task',
-      fn: noop,
-      deps: null
+      fn: fn,
+      type: 'single'
     });
   });
 
@@ -22,8 +22,8 @@ describe('parseRegister', function () {
     expect(task).to.deep.equal({
       name: 'test',
       desc: 'Alias for "default" task.',
-      fn: null,
-      deps: ['default']
+      fn: ['default'],
+      type: 'alias'
     });
   });
 
@@ -33,20 +33,20 @@ describe('parseRegister', function () {
     expect(task).to.deep.equal({
       name: 'test',
       desc: 'Alias for "dep1", "dep2" tasks.',
-      fn: null,
-      deps: ['dep1', 'dep2']
+      fn: ['dep1', 'dep2'],
+      type: 'alias'
     });
   });
 
   it('should support three arguments with a description', function () {
-    var noop = function () {};
-    var task = parseRegister(['test', 'test task', noop]);
+    var fn = function () {};
+    var task = parseRegister(['test', 'test task', fn], 'single');
 
     expect(task).to.deep.equal({
       name: 'test',
       desc: 'test task',
-      fn: noop,
-      deps: null
+      fn: fn,
+      type: 'single'
     });
   });
 

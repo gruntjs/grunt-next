@@ -17,29 +17,31 @@ const GruntCLI = new Liftoff({
 GruntCLI.launch(function () {
   var argv = this.argv;
   var tasks = argv._;
-  var toRun = tasks.length ? tasks : [];
+  var commands = tasks.length ? tasks : ['default'];
 
-  if(!this.configPath) {
+  if (!this.configPath) {
     console.log('No Gruntfile found.');
     process.exit(1);
   }
-  if(!this.modulePath) {
+  if (!this.modulePath) {
     console.log('No local installation of Grunt found.');
     process.exit(1);
   }
 
-  process.chdir(this.configBase);
-  // temporary hack to allow testing
   var Grunt;
-  if(this.modulePackage.name === 'grunt') {
-    Grunt = require(this.configBase);
+  // temporary hack to allow testing
+  if (process.cwd() === '/Users/tkellen/Code/node/grunt-next/core') {
+    Grunt = require(process.cwd());
   } else {
     Grunt = require(this.modulePath);
   }
+
+  process.chdir(this.configBase);
+
   var grunt = new Grunt(this);
   // attach logging
   logEvents(grunt);
 
   require(this.configPath)(grunt);
-  grunt.run(toRun);
+  grunt.run(commands);
 });

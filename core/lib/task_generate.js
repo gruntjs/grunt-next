@@ -1,10 +1,8 @@
-// This higher order function is responsible for assigning context
-// to methods provided in registerTask or registerMultiTask. It is
-// also is responsible for hinting to Orchestrator if the supplied
-// method was sync or not by optionally returning a promise.
+// This takes a registerTask or registerMultiTask method and wraps it
+// in a function that will work with Orchestrator.
 
-module.exports = function (context) {
-  var method = context.task.fn;
+module.exports = function (task, context) {
+  var method = task.fn;
 
   // Return a function that will be invoked by Orchestrator.
   return function () {

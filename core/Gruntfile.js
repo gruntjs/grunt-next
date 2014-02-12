@@ -6,7 +6,7 @@ module.exports = function (grunt) {
       },
       target1: ['lib/**/*.js'],
       target2: ['test/**/*.js'],
-      target3: ['Gruntnextfile.js']
+      target3: ['Gruntfile.js']
     },
   });
   grunt.loadNpmTasks('grunt-contrib-jshint');

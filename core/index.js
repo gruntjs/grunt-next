@@ -1,10 +1,10 @@
+const _ = require('lodash');
+const bindMany = require('./lib/utils/bind_many');
 const util = require('util');
 const EventEmitter = require('events').EventEmitter;
 const expander = require('expander');
-const orchestrate = require('./lib/orchestrate');
+const taskRunner = require('./lib/task_runner');
 const logEvents = require('./lib/log_events');
-const bindMany = require('./lib/utils/bind_many');
-const _ = require('lodash');
 
 function Grunt (env) {
   // save liftoff environment
@@ -12,24 +12,24 @@ function Grunt (env) {
   // extend task namespace into this for convenience
   _.extend(this, this.task);
   // ensure some methods always execute with the right context
-  bindMany(this, ['run', 'loadTasks','loadNpmTasks']);
+  bindMany(this, ['run', 'loadTasks', 'loadNpmTasks']);
   // backwards compat
   this.task.run = this.run;
 }
 util.inherits(Grunt, EventEmitter);
 
-Grunt.prototype.task = require('./lib/task');
-Grunt.prototype.util = {};
-Grunt.prototype.util._ = _;
-
 Grunt.prototype.initConfig = function (data) {
   this.config = expander.interface(data);
 };
 
-Grunt.prototype.run = function (toRun) {
-  var runner = orchestrate(this.config, this.tasks, toRun);
+Grunt.prototype.task = require('./lib/task');
+Grunt.prototype.util = {};
+Grunt.prototype.util._ = _;
+
+Grunt.prototype.run = function (commands) {
+  var runner = taskRunner(this.config, this.tasks, commands);
   logEvents(runner);
-  runner.start(toRun);
+  runner.start.apply(runner, commands);
 };
 
 Grunt.prototype.option = function (name) { return this.env[name]; };

@@ -4,17 +4,16 @@ const parseRegister = require('./parse_register');
 
 exports.tasks = {};
 
-exports.register = function (task, type) {
-  task.type = type;
+exports.register = function (task) {
   exports.tasks[task.name] = task;
 };
 
 exports.registerTask = function () {
-  exports.register(parseRegister(arguments), 'single');
+  exports.register(parseRegister(arguments, 'single'));
 };
 
 exports.registerMultiTask = function () {
-  exports.register(parseRegister(arguments), 'multi');
+  exports.register(parseRegister(arguments, 'multi'));
 };
 
 exports.loadTasks = function (input) {

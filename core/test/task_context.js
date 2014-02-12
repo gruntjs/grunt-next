@@ -1,6 +1,6 @@
 const expander = require('expander');
 const mocha = require('mocha');
-const buildTaskContext = require('../lib/build_task_context');
+const taskContext = require('../lib/task_context');
 global.expect = require('chai').expect;
 
 var rawConfig = {
@@ -27,12 +27,17 @@ var config = expander.interface(rawConfig);
 var task = {
   name: 'task',
   desc: 'testing',
-  deps: null,
   fn: function () {
     console.log('hi');
   }
 };
-var context = buildTaskContext(config, task, 'target');
+var context = taskContext({
+  config: config,
+  task: task,
+  target: 'target',
+  args: ['hello', 'there'],
+  fn: function () {}
+});
 
 describe('Task Context', function () {
 
