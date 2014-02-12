@@ -1,7 +1,6 @@
 const util = require('util');
 const EventEmitter = require('events').EventEmitter;
 const expander = require('expander');
-const parseArgs = require('./lib/parse_args');
 const findTasks = require('./lib/find_tasks');
 const loadTasks = require('./lib/load_tasks');
 const parseRegister = require('./lib/parse_register');
@@ -12,6 +11,10 @@ function Grunt (env) {
   this.env = env;
   this.tasks = {};
   this.registryDirty = false;
+  // ensure these always have the correct context
+  ['loadTasks','loadNpmTasks'].forEach(function (method) {
+    this[method] = this[method].bind(this);
+  }, this);
 }
 util.inherits(Grunt, EventEmitter);
 
@@ -22,12 +25,12 @@ Grunt.prototype.initConfig = function (data) {
   this.config = expander.interface(data);
 };
 
-Grunt.prototype.loadTasks = function () {
-  loadTasks(findTasks(parseArgs(arguments)), this);
+Grunt.prototype.loadTasks = function (input) {
+  loadTasks(findTasks(input), this);
 };
 
-Grunt.prototype.loadNpmTasks = function () {
-  loadTasks(findTasks(parseArgs(arguments), true), this);
+Grunt.prototype.loadNpmTasks = function (input) {
+  loadTasks(findTasks(input, true), this);
 };
 
 Grunt.prototype.registerTask = function () {

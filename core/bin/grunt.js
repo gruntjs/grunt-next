@@ -4,7 +4,7 @@ const Liftoff = require('liftoff');
 const logEvents = require('../lib/log_events');
 
 const GruntCLI = new Liftoff({
-  name: 'gruntnext',
+  name: 'grunt',
   cwdFlag: 'base'
 }).on('require', function (name, module) {
   if (name === 'coffee-script') {

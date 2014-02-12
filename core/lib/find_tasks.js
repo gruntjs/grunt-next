@@ -10,6 +10,9 @@ const _ = require('lodash');
 
 module.exports = function (input, node_module) {
   var taskDir;
+  if(!Array.isArray(input)) {
+    input = [input];
+  }
   return _.flatten(input.map(function (task) {
     if (node_module) {
       taskDir = path.resolve('node_modules', task, 'tasks');
@@ -17,5 +20,5 @@ module.exports = function (input, node_module) {
       taskDir = path.resolve(task);
     }
     return glob.sync(taskDir+'/*.js');
-  }, this));
+  }));
 };

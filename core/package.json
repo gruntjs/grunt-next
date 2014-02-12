@@ -1,7 +1,7 @@
 {
-  "name": "gruntnext",
+  "name": "grunt",
   "description": "Grunt Next",
-  "version": "1.0.0",
+  "version": "0.4.5",
   "homepage": "https://github.com/gruntjs/grunt",
   "author": {
     "name": "Tyler Kellen",
