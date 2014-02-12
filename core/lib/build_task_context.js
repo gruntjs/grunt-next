@@ -12,8 +12,9 @@ module.exports = function (config, task, target)  {
 
   // This is a total hack to make grunt's `this.async()` method work
   // with Orchestrator.  It returns a "callback" that will reject or
-  // resolve an internal promise.  It is being used this way so that
-  // we can correctly hint to Orchestrator when the task is complete.
+  // resolve an internal promise when invoked.  It is being used this
+  // way so that we can correctly hint to Orchestrator when a task
+  // is complete.
   context.async = function () {
     context.deferred = Promise.defer();
     return function (msg) {
@@ -24,6 +25,9 @@ module.exports = function (config, task, target)  {
       }
     };
   };
+
+  // Store a reference to the task object
+  context.task = task;
 
   // Store the currently running target.
   context.target = target;

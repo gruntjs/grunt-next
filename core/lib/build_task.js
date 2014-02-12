@@ -1,13 +1,9 @@
 // This higher order function is responsible for returning a new
 // function that will execute with the context that a grunt task
 // expects.
-const buildTaskContext = require('./build_task_context');
 
-module.exports = function (config, task, target) {
-  var method = task.fn;
-
-  // Create a context object for a grunt task to execute with.
-  var context = buildTaskContext(config, task, target);
+module.exports = function (context) {
+  var method = context.task.fn;
 
   // Return a function that will be invoked by Orchestrator.
   return function () {
@@ -23,7 +19,7 @@ module.exports = function (config, task, target) {
     if (!context.deferred) {
       return ret;
     } else {
-      return context.deferred.promise;
+      return context.deferred;
     }
   };
 };

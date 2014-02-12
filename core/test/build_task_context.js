@@ -89,12 +89,11 @@ describe('Task Context', function () {
     });
 
     it('should contain a list of src/dest pairs', function () {
-      console.log(context.files);
-      //expect(context.files).to.deep.equal([
-      //  { src: ['test/fixtures/files/bar.js',
-      //          'test/fixtures/files/baz.js',
-      //          'test/fixtures/files/foo.js'] }
-      //]);
+      expect(context.files).to.deep.equal([
+        { src: ['test/fixtures/files/bar.js',
+                'test/fixtures/files/baz.js',
+                'test/fixtures/files/foo.js'] }
+      ]);
     });
 
   });
