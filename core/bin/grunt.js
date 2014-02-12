@@ -29,7 +29,13 @@ GruntCLI.launch(function () {
   }
 
   process.chdir(this.configBase);
-  var Grunt = require(this.modulePath);
+  // temporary hack to allow testing
+  var Grunt;
+  if(this.modulePackage.name === 'grunt') {
+    Grunt = require(this.configBase);
+  } else {
+    Grunt = require(this.modulePath);
+  }
   var grunt = new Grunt(this);
   // attach logging
   logEvents(grunt);

@@ -1,54 +1,30 @@
 const util = require('util');
 const EventEmitter = require('events').EventEmitter;
 const expander = require('expander');
-const findTasks = require('./lib/find_tasks');
-const loadTasks = require('./lib/load_tasks');
-const parseRegister = require('./lib/parse_register');
 const orchestrate = require('./lib/orchestrate');
 const logEvents = require('./lib/log_events');
+const bindMany = require('./lib/utils/bind_many');
+const _ = require('lodash');
 
 function Grunt (env) {
+  // save liftoff environment
   this.env = env;
-  this.tasks = {};
-  this.registryDirty = false;
-  // ensure these always have the correct context
-  ['loadTasks','loadNpmTasks'].forEach(function (method) {
-    this[method] = this[method].bind(this);
-  }, this);
+  // extend task namespace into this for convenience
+  _.extend(this, this.task);
+  // ensure some methods always execute with the right context
+  bindMany(this, ['run', 'loadTasks','loadNpmTasks']);
+  // backwards compat
+  this.task.run = this.run;
 }
 util.inherits(Grunt, EventEmitter);
 
+Grunt.prototype.task = require('./lib/task');
 Grunt.prototype.util = {};
-Grunt.prototype.util._ = require('lodash');
+Grunt.prototype.util._ = _;
 
 Grunt.prototype.initConfig = function (data) {
   this.config = expander.interface(data);
 };
-
-Grunt.prototype.loadTasks = function (input) {
-  loadTasks(findTasks(input), this);
-};
-
-Grunt.prototype.loadNpmTasks = function (input) {
-  loadTasks(findTasks(input, true), this);
-};
-
-Grunt.prototype.registerTask = function () {
-  this.register(parseRegister(arguments), 'single');
-};
-
-Grunt.prototype.registerMultiTask = function () {
-  this.register(parseRegister(arguments), 'multi');
-};
-
-Grunt.prototype.register = function (task, type) {
-  task.type = type;
-  this.tasks[task.name] = task;
-};
-
-//Grunt.prototype.renameTask = function (oldName, newName) {
-  // sigh
-//};
 
 Grunt.prototype.run = function (toRun) {
   var runner = orchestrate(this.config, this.tasks, toRun);

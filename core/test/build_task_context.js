@@ -84,15 +84,23 @@ describe('Task Context', function () {
 
   describe('files', function () {
 
-    it('should be an array', function () {
-      expect(context.files).to.be.an('array');
-    });
-
-    it('should contain a list of src/dest pairs', function () {
+    it('should contain an array src/dest pairs', function () {
       expect(context.files).to.deep.equal([
         { src: ['test/fixtures/files/bar.js',
                 'test/fixtures/files/baz.js',
                 'test/fixtures/files/foo.js'] }
+      ]);
+    });
+
+  });
+
+  describe('filesSrc', function () {
+
+    it('should contain an array of sources', function () {
+      expect(context.filesSrc).to.deep.equal([
+        'test/fixtures/files/bar.js',
+        'test/fixtures/files/baz.js',
+        'test/fixtures/files/foo.js'
       ]);
     });
 

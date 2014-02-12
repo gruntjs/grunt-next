@@ -1,6 +1,4 @@
-// This handles the different forms of registerTask and registerMultiTask.
-// The result is a normalized object which can be used to construct a
-// grunt task.
+// This normalizes the different forms of registerTask and registerMultiTask.
 
 module.exports = function (config) {
   var arity = config.length;

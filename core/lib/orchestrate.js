@@ -12,7 +12,6 @@ var findTargets = function (task) {
   return targets;
 };
 
-
 module.exports = function (config, tasks, toRun) {
   var runner = new Orchestrator();
 
@@ -28,7 +27,6 @@ module.exports = function (config, tasks, toRun) {
     }
     if(task.type === 'multi') {
       var targets = findTargets(config.get(parts[0]));
-      console.log(targets);
       var dep;
       targets.forEach(function (target) {
         var taskName = name+':'+target;
