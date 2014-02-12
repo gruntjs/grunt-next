@@ -1,15 +1,11 @@
 const Orchestrator = require('orchestrator');
-const _ = require('lodash');
-
 const buildTaskContext = require('./build_task_context');
 const buildTask = require('./build_task');
-const logEvents = require('./log_events');
 
 var findTargets = function (task) {
   var targets = [];
   Object.keys(task).forEach(function (key) {
-    var target = task[key];
-    if(_.isPlainObject(target) && key != 'options') {
+    if(key != 'options') {
       targets.push(key);
     }
   });
@@ -19,7 +15,7 @@ var findTargets = function (task) {
 
 module.exports = function (config, tasks, toRun) {
   var runner = new Orchestrator();
-  logEvents(runner);
+
   toRun.forEach(function (name) {
     var parts = name.split(':');
     var task = tasks[parts[0]];
@@ -32,14 +28,16 @@ module.exports = function (config, tasks, toRun) {
     }
     if(task.type === 'multi') {
       var targets = findTargets(config.get(parts[0]));
+      console.log(targets);
       var dep;
       targets.forEach(function (target) {
+        var taskName = name+':'+target;
         if (dep) {
-          runner.add(name+target, [dep], buildTask(buildTaskContext(config, task, target)));
+          runner.add(taskName, [dep], buildTask(buildTaskContext(config, task, target)));
         } else {
-          runner.add(name+target, buildTask(buildTaskContext(config, task, target)));
+          runner.add(taskName, buildTask(buildTaskContext(config, task, target)));
         }
-        dep = name+target;
+        dep = taskName;
       });
       runner.add(name, [dep]);
     }

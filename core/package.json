@@ -39,7 +39,8 @@
     "chalk": "~0.4.0",
     "glob": "~3.2.8",
     "bluebird": "~1.0.4",
-    "expander": "~0.3.1"
+    "expander": "~0.3.1",
+    "configfiles": "~0.3.1"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.8.0",

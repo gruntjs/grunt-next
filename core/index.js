@@ -6,6 +6,7 @@ const findTasks = require('./lib/find_tasks');
 const loadTasks = require('./lib/load_tasks');
 const parseRegister = require('./lib/parse_register');
 const orchestrate = require('./lib/orchestrate');
+const logEvents = require('./lib/log_events');
 
 function Grunt (env) {
   this.env = env;
@@ -42,15 +43,13 @@ Grunt.prototype.register = function (task, type) {
   this.tasks[task.name] = task;
 };
 
-Grunt.prototype.renameTask = function (old, new) {
+//Grunt.prototype.renameTask = function (oldName, newName) {
   // sigh
-};
+//};
 
 Grunt.prototype.run = function (toRun) {
-  var runner = orchestrate(this.tasks, toRun, this.config.get());
-  runner.onAll(function (e) {
-    this.emit.apply.bind(this, e.src).apply(null, e);
-  }.bind());
+  var runner = orchestrate(this.config, this.tasks, toRun);
+  logEvents(runner);
   runner.start(toRun);
 };
 
