@@ -1,4 +1,6 @@
-const parseArgs = require('../../lib/utils/parse_args');
+const mocha = require('mocha');
+const expect = require('chai').expect;
+const parseArgs = require('../lib/parse_args');
 
 describe('parseArgs', function () {
 

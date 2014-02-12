@@ -36,7 +36,7 @@ GruntCLI.launch(function () {
   logEvents(grunt);
 
   require(this.configPath)(grunt);
-  grunt.start.apply(grunt, toRun);
+  grunt.run(toRun);
 });
 
 function formatError (e) {

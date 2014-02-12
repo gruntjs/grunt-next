@@ -1,6 +1,6 @@
-// This normalizes the different forms of registerTask and
-// registerMultiTask, normalizing them into an object which
-// can be used to construct a task.
+// This handles the different forms of registerTask and registerMultiTask.
+// The result is a normalized object which can be used to construct a
+// grunt task.
 
 module.exports = function (config) {
   var arity = config.length;
@@ -10,12 +10,12 @@ module.exports = function (config) {
   var deps = null;
 
   // support registerTask('name', 'desc', function () { ... });
-  if(arity === 3) {
+  if (arity === 3) {
     desc = config[1];
     fn = config[2];
-  } else if(arity === 2) {
+  } else if (arity === 2) {
     // support registerTask('name', function () { ... });
-    if(typeof config[1] === 'function') {
+    if (typeof config[1] === 'function') {
       fn = config[1];
     } else {
       // support registerTask('name', ['task', task', 'task']);

@@ -1,17 +1,18 @@
 const util = require('util');
-const Orchestrator = require('orchestrator');
+const EventEmitter = require('events').EventEmitter;
 const expander = require('expander');
-const parseArgs = require('./lib/utils/parse_args');
+const parseArgs = require('./lib/parse_args');
 const findTasks = require('./lib/find_tasks');
 const loadTasks = require('./lib/load_tasks');
 const parseRegister = require('./lib/parse_register');
-const Task = require('../task');
+const orchestrate = require('./lib/orchestrate');
 
 function Grunt (env) {
   this.env = env;
-  Orchestrator.call(this);
+  this.tasks = {};
+  this.registryDirty = false;
 }
-util.inherits(Grunt, Orchestrator);
+util.inherits(Grunt, EventEmitter);
 
 Grunt.prototype.util = {};
 Grunt.prototype.util._ = require('lodash');
@@ -29,21 +30,28 @@ Grunt.prototype.loadNpmTasks = function () {
 };
 
 Grunt.prototype.registerTask = function () {
-  var task = Task.create(parseRegister(arguments));
-  this.register(task);
+  this.register(parseRegister(arguments), 'single');
 };
 
 Grunt.prototype.registerMultiTask = function () {
-  var task = Task.createMulti(parseRegister(arguments));
-  this.register(task);
+  this.register(parseRegister(arguments), 'multi');
 };
 
-Grunt.prototype.register = function (task) {
-  if (task.deps) {
-    this.add(task.name, task.deps, task.build(this.config));
-  } else {
-    this.add(task.name, task.build(this.config));
-  }
+Grunt.prototype.register = function (task, type) {
+  task.type = type;
+  this.tasks[task.name] = task;
+};
+
+Grunt.prototype.renameTask = function (old, new) {
+  // sigh
+};
+
+Grunt.prototype.run = function (toRun) {
+  var runner = orchestrate(this.tasks, toRun, this.config.get());
+  runner.onAll(function (e) {
+    this.emit.apply.bind(this, e.src).apply(null, e);
+  }.bind());
+  runner.start(toRun);
 };
 
 Grunt.prototype.option = function (name) { return this.env[name]; };

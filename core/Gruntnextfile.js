@@ -4,7 +4,9 @@ module.exports = function (grunt) {
       options: {
         jshintrc: '.jshintrc'
       },
-      files: ['Gruntnextfile.js', 'lib/**/*.js']
+      target1: ['lib/**/*.js'],
+      target2: ['test/**/*.js'],
+      target3: ['Gruntnextfile.js']
     },
   });
   grunt.loadNpmTasks('grunt-contrib-jshint');

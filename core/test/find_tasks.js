@@ -1,3 +1,5 @@
+const mocha = require('mocha');
+const expect = require('chai').expect;
 const findTasks = require('../lib/find_tasks');
 const glob = require('glob');
 const path = require('path');
