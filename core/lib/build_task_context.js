@@ -25,6 +25,9 @@ module.exports = function (config, task, target)  {
     };
   };
 
+  // Store the currently running target.
+  context.target = target;
+
   // Lazily extract src/dest pairs from a valid grunt config.
   Object.defineProperty(context, 'files', {
     get: function () {

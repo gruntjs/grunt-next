@@ -13,7 +13,6 @@ var findTargets = function (task) {
   return targets;
 };
 
-
 module.exports = function (config, tasks, toRun) {
   var runner = new Orchestrator();
   toRun.forEach(function (name) {
@@ -25,6 +24,15 @@ module.exports = function (config, tasks, toRun) {
     }
     if (task.type === 'single') {
       runner.add(name, buildTask(config, task));
+    }
+    if(task.type === 'multi') {
+      var targets = findTargets(config.get(parts[0]));
+      targets.forEach(function (target) {
+        runner.add(name+target, buildTask(config, task, target));
+      });
+      runner.add(name, targets.map(function (target) {
+        return name+target;
+      }));
     }
   });
   return runner;

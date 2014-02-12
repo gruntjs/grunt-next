@@ -1,5 +1,6 @@
 const mocha = require('mocha');
 const expect = require('chai').expect;
+const expander = require('expander');
 const orchestrate = require('../lib/orchestrate');
 
 var tasks = {
@@ -8,7 +9,7 @@ var tasks = {
   taskThree: {name:'taskThree',type:'single',fn:function(){console.log('taskThree');}}
 };
 
-var config = {
+var configRaw = {
   task: {
     targetOne: {},
     targetTwo: {},
@@ -21,12 +22,13 @@ var config = {
 
   }
 };
+var config = expander.interface(configRaw);
 
 describe('buildRunner', function () {
 
   it('should build a task registry', function () {
-    var runner = orchestrate(config, tasks, ['taskTwo']);
-    runner.start('taskTwo');
+    var runner = orchestrate(config, tasks, ['task']);
+    runner.start('task');
   });
 
 });
