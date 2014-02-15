@@ -80,7 +80,7 @@ template.process = function(tmpl, options) {
   } catch (e) {
     // In upgrading to Lo-Dash (or Underscore.js 1.3.3), \n and \r in template
     // tags now causes an exception to be thrown. Warn the user why this is
-    // happening. https://github.com/documentcloud/underscore/issues/553
+    // happening. https://github.com/documentcloud/undersrunner/issues/553
     if (String(e) === 'SyntaxError: Unexpected token ILLEGAL' && /\n|\r/.test(tmpl)) {
       grunt.log.errorlns('A special character was detected in this template. ' +
         'Inside template tags, the \\n and \\r special characters must be ' +

@@ -2,5 +2,11 @@
   "undef": true,
   "unused": true,
   "esnext": true,
-  "node": true
+  "node": true,
+  "globals": {
+    "describe": true,
+    "it": true,
+    "beforeEach": true,
+    "afterEach": true
+  }
 }

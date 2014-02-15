@@ -1,0 +1,50 @@
+{
+  "name": "grunt",
+  "description": "Grunt Next",
+  "version": "0.4.5",
+  "homepage": "https://github.com/gruntjs/grunt",
+  "author": {
+    "name": "Tyler Kellen",
+    "url": "http://goingslowly.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/gruntjs/grunt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gruntjs/grunt/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/gruntjs/grunt/blob/master/LICENSE"
+    }
+  ],
+  "bin": {
+    "grunt": "bin/grunt.js"
+  },
+  "main": "runner/index.js",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "scripts": {
+    "test": "mocha -R spec test/{runner,task}/*.js"
+  },
+  "keywords": [],
+  "dependencies": {
+    "liftoff": "~0.8.3",
+    "lodash": "~2.4.1",
+    "pretty-hrtime": "~0.2.0",
+    "orchestrator": "~0.3.3",
+    "chalk": "~0.4.0",
+    "glob": "~3.2.8",
+    "bluebird": "~1.0.4",
+    "expander": "~0.3.1",
+    "configfiles": "~0.3.1"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.8.0",
+    "chai": "~1.9.0",
+    "mocha": "~1.17.1"
+  }
+}

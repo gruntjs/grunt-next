@@ -1,5 +1,5 @@
 {
-  "name": "grunt2",
+  "name": "grunt",
   "description": "The JavaScript Task Runner",
   "version": "0.4.3-0",
   "author": "\"Cowboy\" Ben Alman (http://benalman.com/)",
@@ -62,8 +62,7 @@
     "which": "~1.0.5",
     "js-yaml": "~2.0.5",
     "exit": "~0.1.1",
-    "getobject": "~0.1.0",
-    "orchestrator": "~0.3.3"
+    "getobject": "~0.1.0"
   },
   "devDependencies": {
     "temporary": "~0.0.4",
