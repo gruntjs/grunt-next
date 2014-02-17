@@ -43,7 +43,17 @@
     "configfiles": "~0.3.1",
     "async": "~0.2.10",
     "dateformat": "~1.0.7-1.2.3",
-    "eventemitter2": "~0.4.13"
+    "eventemitter2": "~0.4.13",
+    "hooker": "~0.2.3",
+    "which": "~1.0.5",
+    "underscore.string": "~2.3.3",
+    "exit": "~0.1.2",
+    "minimatch": "~0.2.14",
+    "js-yaml": "~3.0.1",
+    "rimraf": "~2.2.6",
+    "iconv-lite": "~0.2.11",
+    "colors": "~0.6.2",
+    "nopt": "~2.2.0"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.8.0",

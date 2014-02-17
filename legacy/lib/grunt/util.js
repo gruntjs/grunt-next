@@ -18,8 +18,6 @@ var path = require('path');
 var util = module.exports = {};
 
 
-util.namespace = require('getobject');
-
 // External libs.
 util.hooker = require('hooker');
 util.async = require('async');
