@@ -18,11 +18,11 @@ exports.registerMultiTask = function () {
 };
 
 exports.loadTasks = function (input) {
-  loadTaskFiles(findTasks(input), this);
+  loadTaskFiles(findTaskFiles(input), this);
 };
 
 exports.loadNpmTasks = function (input) {
-  loadTaskFiles(findTasks(input, true), this);
+  loadTaskFiles(findTaskFiles(input, true), this);
 };
 
 exports.renameTask = function (oldName, newName) {
