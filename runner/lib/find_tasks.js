@@ -1,8 +1,7 @@
-// Given an array of folders or module names, this finds and returns a
-// flattened array of paths to all task files found within.
-
-// If you are building a task runner, please do not do this.  Node has
-// a beautiful module system already.
+/*
+  Given an array of folders or module names, this finds and returns a
+  flattened array of paths to all task files found within.
+*/
 
 const path = require('path');
 const glob = require('glob');

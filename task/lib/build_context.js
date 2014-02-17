@@ -5,6 +5,7 @@ const configFiles = require('configFiles');
 module.exports = function (config, command, type) {
 
   var context = {};
+  var args;
 
   if(type === 'multi') {
     if(command.length < 2) {

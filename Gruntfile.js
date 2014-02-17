@@ -4,15 +4,16 @@ module.exports = function (grunt) {
       options: {
         jshintrc: '.jshintrc'
       },
-      target1: ['lib/**/*.js'],
-      target2: ['test/**/*.js'],
-      target3: ['Gruntfile.js']
+      runner: ['runner/**/*.js'],
+      task: ['task/**/*.js'],
+      tests: ['test/**/*.js']
     },
   });
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.registerTask('default', 'jshint');
-
   grunt.registerTask('test', function () {
     console.log(this);
   });
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.registerTask('nestedAlias', 'jshint')
+  grunt.registerTask('default', 'nestedAlias');
+
 };

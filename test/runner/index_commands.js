@@ -1,10 +1,8 @@
-const mocha = require('mocha');
-const expect = require('chai').expect;
-const parseCommands = require('../../runner/lib/parse_commands');
+const indexCommands = require('../../runner/lib/index_commands');
 
-describe('parseCommands', function () {
+describe('indexCommands', function () {
 
-  it('should extract all permutations for each task', function () {
+  it('index commands by their root task name', function () {
     var commands = [
       'single:arg1:arg2',
       'multi',
@@ -17,7 +15,7 @@ describe('parseCommands', function () {
       multi: ['multi','multi:target:arg1:arg2','multi:target:arg1'],
       alias: ['alias:arg1:arg2']
     };
-    expect(parseCommands(commands)).to.deep.equal(result);
+    expect(indexCommands(commands)).to.deep.equal(result);
   });
 
 });

@@ -1,5 +1,3 @@
-const mocha = require('mocha');
-const expect = require('chai').expect;
 const findTargets = require('../../runner/lib/find_targets');
 
 describe('findTargets', function () {

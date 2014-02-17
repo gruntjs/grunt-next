@@ -1,10 +1,15 @@
 #!/usr/bin/env node
 
+// make coffee-script configs available for testing
+require('coffee-script/register');
+
 const Liftoff = require('liftoff');
 const logEvents = require('../runner/lib/log_events');
 
 const GruntCLI = new Liftoff({
-  name: 'grunt',
+  moduleName: 'gn',
+  configName: 'Gruntfile',
+  processTitle: 'grung-next',
   cwdFlag: 'base'
 }).on('require', function (name, module) {
   if (name === 'coffee-script') {
