@@ -23,33 +23,25 @@ function gRequire(name) {
   return grunt[name] = require('./grunt/' + name);
 }
 var util = gRequire('util');
-gRequire('template');
-gRequire('event');
+
+
 var fail = gRequire('fail');
 gRequire('file');
 var option = gRequire('option');
-var config = gRequire('config');
-var task = gRequire('task');
+
 var log = gRequire('log');
 var help = gRequire('help');
 gRequire('cli');
 var verbose = grunt.verbose = log.verbose;
 
 // Expose some grunt metadata.
-grunt.package = require('../package.json');
-grunt.version = grunt.package.version;
+
 
 // Expose specific grunt lib methods on grunt.
 function gExpose(obj, methodName, newMethodName) {
   grunt[newMethodName || methodName] = obj[methodName].bind(obj);
 }
-gExpose(task, 'registerTask');
-gExpose(task, 'registerMultiTask');
-gExpose(task, 'registerInitTask');
-gExpose(task, 'renameTask');
-gExpose(task, 'loadTasks');
-gExpose(task, 'loadNpmTasks');
-gExpose(config, 'init', 'initConfig');
+
 gExpose(fail, 'warn');
 gExpose(fail, 'fatal');
 

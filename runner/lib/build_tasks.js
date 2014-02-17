@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const findTargets = require('./find_targets');
 
 var hasTarget = function (command) {
@@ -8,22 +9,25 @@ var getTarget = function (command) {
   return command.split(':')[1];
 };
 
-var buildTaskEntries = function (task, config, commands) {
+var buildTasks = function (task, config, commands) {
   var taskName = task.name;
   var isMulti = task.type === 'multi';
 
-  return commands.map(function (command) {
+  console.log('Building tasks for "'+taskName+'": ', commands);
+
+  return _.flatten(commands.map(function (command) {
     if (isMulti) {
 
       // if we are calling a multi task without a target, we need to
       // create entries for all targets and then create an alias that
-      // runs all of them.
+      // runs them.
       if(!hasTarget(command)) {
+        console.log('Calling multi task "'+taskName+'" without target, generating alias...')
         var targets = findTargets(config);
         var subCommands = targets.map(function (target) {
           return taskName+':'+target;
         });
-        var commands = buildTaskEntries(task, config, subCommands);
+        var commands = buildTasks(task, config, subCommands);
         commands.push({
           name: command,
           method: subCommands
@@ -31,6 +35,9 @@ var buildTaskEntries = function (task, config, commands) {
         return commands;
       }
 
+      // if the requested target doesn't exist, create a dummy task
+      // to log this.  there is probably a better way to go about
+      // this.
       var target = getTarget(command);
       if (!config[target]) {
         return {
@@ -47,7 +54,7 @@ var buildTaskEntries = function (task, config, commands) {
       method: task.build(config, command)
     };
 
-  });
+  }))
 };
 
-module.exports = buildTaskEntries;
+module.exports = buildTasks;

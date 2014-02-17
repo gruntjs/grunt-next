@@ -12,6 +12,12 @@ describe('buildMethod', function () {
     method();
   });
 
+  it('should expose the provided context as a property of the generated method', function () {
+    var context = {property:true};
+    var method = buildMethod(function () {}, context);
+    expect(method.context).to.deep.equal(context);
+  });
+
   it('if the provided method does not create an internal promise, the generated method should return sync', function () {
     var method = buildMethod(function () {
       return "sync";

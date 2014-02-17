@@ -17,8 +17,7 @@ var path = require('path');
 // The module to be exported.
 var util = module.exports = {};
 
-// A few internal utilities, exposed.
-util.task = require('../util/task');
+
 util.namespace = require('getobject');
 
 // External libs.

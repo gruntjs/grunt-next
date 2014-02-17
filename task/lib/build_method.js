@@ -3,7 +3,7 @@
 module.exports = function (method, context) {
   context = context||{};
 
-  return function () {
+  var wrapper = function () {
     // clear promise for each run.
     context.deferred = false;
 
@@ -31,4 +31,10 @@ module.exports = function (method, context) {
       return context.deferred.promise;
     }
   };
+
+  // because grunt allows accessing the currently running task context
+  // on grunt.task.current, we need to expose this.
+  wrapper.context = context;
+
+  return wrapper;
 };

@@ -1,8 +1,8 @@
-const findTasks = require('../../runner/lib/find_tasks');
+const findTasks = require('../../runner/lib/find_task_files');
 const glob = require('glob');
 const path = require('path');
 
-describe('findTasks', function () {
+describe('findTaskFiles', function () {
 
   it('should take an array of folder names and find all task files within', function () {
     var taskFiles = findTasks(['fixtures/tasks']);

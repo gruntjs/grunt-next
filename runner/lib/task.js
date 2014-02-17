@@ -1,12 +1,12 @@
-const findTasks = require('./find_tasks');
-const loadTasks = require('./load_tasks');
+const findTaskFiles = require('./find_task_files');
+const loadTaskFiles = require('./load_task_files');
 const parseRegister = require('./parse_register');
 const Task = require('../../task');
 
-exports.tasks = {};
+exports.registry = {};
 
 exports.register = function (task) {
-  exports.tasks[task.name] = new Task(task);
+  exports.registry[task.name] = new Task(task);
 };
 
 exports.registerTask = function () {
@@ -18,11 +18,11 @@ exports.registerMultiTask = function () {
 };
 
 exports.loadTasks = function (input) {
-  loadTasks(findTasks(input), this);
+  loadTaskFiles(findTasks(input), this);
 };
 
 exports.loadNpmTasks = function (input) {
-  loadTasks(findTasks(input, true), this);
+  loadTaskFiles(findTasks(input, true), this);
 };
 
 exports.renameTask = function (oldName, newName) {

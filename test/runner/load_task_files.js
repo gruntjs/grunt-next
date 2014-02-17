@@ -1,6 +1,6 @@
-const loadTasks = require('../../runner/lib/load_tasks');
+const loadTaskFiles = require('../../runner/lib/load_task_files');
 
-describe('loadTasks', function () {
+describe('loadTaskFiles', function () {
 
   it('should take an array of module paths, require them, and inject grunt into each.', function () {
     var tasks = [
@@ -8,7 +8,7 @@ describe('loadTasks', function () {
       __dirname+'/../fixtures/tasks/two'
     ];
     var grunt = {loaded:0};
-    loadTasks(tasks, grunt);
+    loadTaskFiles(tasks, grunt);
     expect(grunt.loaded).to.equal(2);
   });
 
