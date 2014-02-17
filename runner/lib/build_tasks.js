@@ -22,7 +22,7 @@ var buildTasks = function (task, config, commands) {
       // create entries for all targets and then create an alias that
       // runs them.
       if(!hasTarget(command)) {
-        console.log('Calling multi task "'+taskName+'" without target, generating alias...')
+        console.log('Calling multi task "'+taskName+'" without target, generating alias...');
         var targets = findTargets(config);
         var subCommands = targets.map(function (target) {
           return taskName+':'+target;
@@ -54,7 +54,7 @@ var buildTasks = function (task, config, commands) {
       method: task.build(config, command)
     };
 
-  }))
+  }));
 };
 
 module.exports = buildTasks;
