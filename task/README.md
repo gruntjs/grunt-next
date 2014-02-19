@@ -2,4 +2,4 @@
 
 ### Responsibilities
 
-* Generate Orchestrator-compatible methods to run tasks.
+* Generate Orchestrator-compatible methods from existing grunt tasks.

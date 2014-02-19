@@ -1,4 +1,4 @@
-# core
+# runner
 
 ### Responsibilities
 
