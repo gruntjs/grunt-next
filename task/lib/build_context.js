@@ -43,6 +43,7 @@ module.exports = function (config, command, multiTask) {
   context.async = function () {
     context.deferred = Promise.defer();
     return function (msg) {
+      // this needs to be brought in line with grunt
       if (msg) {
         context.deferred.reject(msg);
       } else {

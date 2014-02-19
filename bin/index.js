@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// make coffee-script configs available for testing
+// temporarily make coffee-script configs work automatically
 require('coffee-script/register');
 
 const prettyTime = require('pretty-hrtime');
@@ -8,20 +8,24 @@ const chalk = require('chalk');
 const Liftoff = require('liftoff');
 
 const cli = new Liftoff({
-  moduleName: 'gn',
+  moduleName: 'grunt-next',
   configName: 'Gruntfile',
   processTitle: 'grunt-next',
   cwdFlag: 'base'
-}).on('require', function (name, module) {
+})
+
+cli.on('require', function (name, module) {
   if (name === 'coffee-script') {
     module.register();
   }
-}).on('requireFail', function (name, err) {
-  console.log('Unable to load:', name, err);
+  console.log('Requiring external module:', name);
+});
+
+cli.on('requireFail', function (name, err) {
+  console.log('Unable to require external module:', name, err);
 });
 
 cli.launch(function () {
-
   var argv = this.argv;
   var tasks = argv._;
   var commands = tasks.length ? tasks : ['default'];
@@ -31,27 +35,20 @@ cli.launch(function () {
     process.exit(1);
   }
   if (!this.modulePath) {
-    console.log('No local installation of Grunt found.');
+    console.log('No local installation of grunt-next found.');
     process.exit(1);
   }
 
-  var Grunt;
-  // temporary hack to allow testing
-  if (process.cwd() === '/Users/tkellen/Code/node/grunt-next') {
-    Grunt = require(process.cwd());
-  } else {
-    Grunt = require(this.modulePath);
+  var Grunt = require(this.modulePath);
+  if(process.cwd != this.cwd) {
+    process.chdir(this.cwd);
   }
-
-  process.chdir(this.configBase);
 
   var grunt = new Grunt(this);
   logEvents(grunt);
-
   require(this.configPath)(grunt);
   grunt.run(commands);
 });
-
 
 function formatError (e) {
   if (!e.err) return e.message;

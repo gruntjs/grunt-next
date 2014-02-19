@@ -2,9 +2,9 @@
 > v1.0 alpha
 
 ### Install
-1. `npm install`
-2. `sudo npm link`
-3. `gn`
+1. `npm install -g grunt-next` (for cli)
+2. `npm install --save-dev grunt-next` (in your project)
+3. run `gn`
 
 ### Powered by:
 * [liftoff] - cli handling
