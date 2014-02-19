@@ -2,12 +2,12 @@ const _ = require('lodash');
 const Promise = require('bluebird');
 const configFiles = require('configFiles');
 
-module.exports = function (config, command, type) {
+module.exports = function (config, command, multiTask) {
 
   var context = {};
   var args;
 
-  if(type === 'multi') {
+  if(multiTask) {
     if(command.length < 2) {
       throw new Error('Unable to generate multi-task context without target.');
     }

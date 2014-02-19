@@ -1,56 +1,66 @@
-const _ = require('lodash');
-const pkg = require('../package');
-const bindMany = require('./lib/utils/bind_many');
 const util = require('util');
-const EventEmitter2 = require('eventemitter2').EventEmitter2;
+const pkg = require('../package');
+const Task = require('../task');
+const legacy = require('../legacy');
 const expander = require('expander');
-const buildRunner = require('./lib/build_runner');
-const requestTasks = require('./lib/request_tasks');
+const bindMany = require('./lib/utils/bind_many');
+const parseRegister = require('./lib/parse_register');
+const findTaskFiles = require('./lib/find_task_files');
+const loadTaskFiles = require('./lib/load_task_files');
+const parseCommands = require('./lib/parse_commands');
+const indexCommands = require('./lib/index_commands');
+const buildTaskList = require('./lib/build_task_list');
+const EventEmitter2 = require('eventemitter2').EventEmitter2;
+const Orchestrator = require('orchestrator');
 
 function Grunt (env) {
   this.env = env;
-  bindMany([
-    'run',
-    'loadTasks',
-    'loadNpmTasks'
-  ], this);
-  EventEmitter2.call(this, {wildcard:true});
   this.events = this;
-  this.tasks = this.task.registry;
+  this.tasks = [];
+  EventEmitter2.call(this, {wildcard:true});
+  bindMany(['loadTasks', 'loadNpmTasks'], this);
 }
 util.inherits(Grunt, EventEmitter2);
 
-Grunt.prototype.util = require('../legacy/lib/grunt/util');
-Grunt.prototype.util.async = require('async');
+Grunt.prototype.init =  function (data) {
+  this.config = expander.interface(data);
+  legacy(this);
+};
+Grunt.prototype.initConfig = Grunt.prototype.init;
 Grunt.prototype.package = pkg;
 Grunt.prototype.version = pkg.version;
 
-Grunt.prototype.option = function (name) { return this.env.argv[name]; };
-Grunt.prototype.log = require('../legacy/lib/grunt').log;
-Grunt.prototype.file = require('../legacy/lib/grunt').file;
-Grunt.prototype.warn = require('../legacy/lib/grunt').warn;
-Grunt.prototype.verbose = require('../legacy/lib/grunt').verbose;
-Grunt.prototype.fail = require('../legacy/lib/grunt').fail;
-
-Grunt.prototype.task = require('./lib/task');
-_.extend(Grunt.prototype, Grunt.prototype.task);
-
-Grunt.prototype.template = require('./lib/utils/template');
-
-Grunt.prototype.initConfig = function (data) {
-  var config = expander.interface(data);
-  this.config = config;
-  // hook grunt.template.process into expander
-  this.template.process = function (data) {
-    return config.process(data);
-  };
+Grunt.prototype.register = function (task, constructor) {
+  this.tasks[task.name] = new constructor(task);
 };
-Grunt.prototype.init = Grunt.prototype.initConfig;
+Grunt.prototype.registerTask = function () {
+  this.register(parseRegister(arguments, 'single'), Task);
+};
+Grunt.prototype.registerMultiTask = function () {
+  this.register(parseRegister(arguments, 'multi'), Task);
+};
+Grunt.prototype.loadTasks = function (input) {
+  loadTaskFiles(findTaskFiles(input), this);
+};
+Grunt.prototype.loadNpmTasks = function (input) {
+  loadTaskFiles(findTaskFiles(input, true), this);
+};
+Grunt.prototype.renameTask = function (oldName, newName) {
+  console.log(oldName, newName);
+};
 
 Grunt.prototype.run = function (request) {
-  var tasks = requestTasks(this.config, this.tasks, request);
-  console.log('Registering tasks with Orchestrator:\n', tasks);
-  var runner = buildRunner(tasks);
+  console.log('run:', request);
+  var commands = parseCommands(this.config, this.tasks, request);
+  console.log('parseCommands:', commands);
+  var indexedCommands = indexCommands(commands);
+  console.log('indexCommands:', indexedCommands);
+  var taskList = buildTaskList(this.config, this.tasks, indexedCommands);
+  console.log('buildTaskList', taskList);
+  var runner = new Orchestrator();
+  taskList.forEach(function (task) {
+    runner.add(task.name, task.method);
+  });
   runner.on('task_start', function (e) {
     // this will not be reliable when running tasks concurrently
     this.task.current = runner.tasks[e.task].fn.context;
@@ -58,7 +68,8 @@ Grunt.prototype.run = function (request) {
   runner.on('task_end', function () {
     this.task.current = null;
   });
-  runner.start(request);
+  console.log('running', commands);
+  runner.start(commands);
 };
 
 module.exports = Grunt;

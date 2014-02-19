@@ -17,7 +17,6 @@ var path = require('path');
 // The module to be exported.
 var util = module.exports = {};
 
-
 // External libs.
 util.hooker = require('hooker');
 util.async = require('async');

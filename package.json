@@ -21,15 +21,16 @@
     }
   ],
   "bin": {
-    "gn": "bin/gn.js"
+    "gn": "bin/index.js"
   },
-  "main": "runner/index.js",
+  "main": "lib/core",
   "engines": {
     "node": ">= 0.10.0"
   },
   "scripts": {
     "test": "mocha -R spec test/index.js"
   },
+  "main": "lib/core/index.js",
   "keywords": [],
   "dependencies": {
     "liftoff": "~0.8.3",

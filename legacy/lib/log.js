@@ -9,7 +9,11 @@
 
 'use strict';
 
-var grunt = require('../grunt');
+var grunt = {
+  util: require('./util'),
+  option: require('./option'),
+  fail: 0
+};
 
 // Nodejs libs.
 var util = require('util');

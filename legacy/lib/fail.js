@@ -9,7 +9,9 @@
 
 'use strict';
 
-var grunt = require('../grunt');
+var grunt = {
+  option: require('./option')
+};
 
 // The module to be exported.
 var fail = module.exports = {};

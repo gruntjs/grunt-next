@@ -9,7 +9,10 @@
 
 'use strict';
 
-var grunt = require('../grunt');
+var grunt = {
+  verbose: require('./log').verbose,
+  util: require('./util')
+};
 
 // Nodejs libs.
 var fs = require('fs');

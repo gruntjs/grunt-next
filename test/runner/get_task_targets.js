@@ -1,6 +1,6 @@
-const findTargets = require('../../runner/lib/find_targets');
+const getTaskTargets = require('../../runner/lib/get_task_targets');
 
-describe('findTargets', function () {
+describe('getTaskTargets', function () {
 
   it('should extract valid targets from a task config', function () {
     var config = {
@@ -10,7 +10,7 @@ describe('findTargets', function () {
         src: ['test/fixtures/files/*.js']
       }
     };
-    expect(findTargets(config)).to.deep.equal(['targetOne','targetTwo']);
+    expect(getTaskTargets(config, 'task')).to.deep.equal(['task:targetOne','task:targetTwo']);
   });
 
 });

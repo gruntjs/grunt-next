@@ -11,15 +11,14 @@
     }
   };
   =
-  ['targetOne', 'targetTwo']
+  ['task:targetOne', 'task:targetTwo']
 */
 
-module.exports = function (config) {
-  var targets = [];
-  Object.keys(config).forEach(function (key) {
+module.exports = function (config, taskName) {
+  return Object.keys(config).reduce(function (result, key) {
     if (key != 'options') {
-      targets.push(key);
+      result.push(taskName+':'+key);
     }
-  });
-  return targets;
+    return result;
+  }, []);
 };

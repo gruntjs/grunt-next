@@ -9,9 +9,11 @@
     jshint: ['jshint:lib','jshint:test']
   }
 */
+var getCommandTask = require('./get_command_task');
+
 module.exports = function (commands) {
   return commands.reduce(function (tasks, command) {
-    var taskName = command.split(':')[0];
+    var taskName = getCommandTask(command);
     var task = tasks[taskName];
     if(!task) {
       tasks[taskName] = [];
