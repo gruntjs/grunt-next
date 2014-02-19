@@ -50,25 +50,38 @@ Grunt.prototype.renameTask = function (oldName, newName) {
 };
 
 Grunt.prototype.run = function (request) {
-  console.log('run:', request);
+  this.emit('run.request', request);
+
+  // remove invalid requests / resolve aliases / expand multi tasks
   var commands = parseCommands(this.config, this.tasks, request);
-  console.log('parseCommands:', commands);
+  this.emit('run.parseCommands', commands);
+
+  // group commands by their root task
   var indexedCommands = indexCommands(commands);
-  console.log('indexCommands:', indexedCommands);
+  this.emit('run.indexCommands', indexedCommands);
+
+  // build a listing of tasks to put into orchestrator
   var taskList = buildTaskList(this.config, this.tasks, indexedCommands);
-  console.log('buildTaskList', taskList);
+  this.emit('run.buildTaskList', taskList);
+
+  // build an orchestration
   var runner = new Orchestrator();
   taskList.forEach(function (task) {
     runner.add(task.name, task.method);
   });
+
+  // emit some stuff (this will be cleaned up in the next v of orchestrator)
   runner.on('task_start', function (e) {
-    // this will not be reliable when running tasks concurrently
+    // this will not be reliable when running tasks concurrently!
     this.task.current = runner.tasks[e.task].fn.context;
+    this.emit('task_start', e);
   }.bind(this));
-  runner.on('task_end', function () {
+  runner.on('task_stop', function (e) {
     this.task.current = null;
-  });
-  console.log('running', commands);
+    this.emit('task_stop', e);
+  }.bind(this));
+
+  // run it!
   runner.start(commands);
 };
 

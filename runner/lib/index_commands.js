@@ -15,7 +15,7 @@ module.exports = function (commands) {
   return commands.reduce(function (tasks, command) {
     var taskName = getCommandTask(command);
     var task = tasks[taskName];
-    if(!task) {
+    if (!task) {
       tasks[taskName] = [];
       task = tasks[taskName];
     }

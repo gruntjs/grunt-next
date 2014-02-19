@@ -7,8 +7,8 @@ module.exports = function (config, command, multiTask) {
   var context = {};
   var args;
 
-  if(multiTask) {
-    if(command.length < 2) {
+  if (multiTask) {
+    if (command.length < 2) {
       throw new Error('Unable to generate multi-task context without target.');
     }
     context.target = command[1];
@@ -19,7 +19,7 @@ module.exports = function (config, command, multiTask) {
     args = command.slice(1);
   }
 
-  if(!context.data) {
+  if (!context.data) {
     context.data = {};
   }
 
@@ -54,7 +54,7 @@ module.exports = function (config, command, multiTask) {
   // Shallow merge task and target options over provided defaults.
   context.options = function (defaults) {
     var merge = [defaults, config.options];
-    if(context.target) {
+    if (context.target) {
       merge.push(context.data.options);
     }
     return _.merge.apply(null, merge);

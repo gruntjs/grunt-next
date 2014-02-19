@@ -8,6 +8,10 @@ module.exports = function (grunt) {
       task: ['task/**/*.js'],
       tests: ['test/**/*.js']
     },
+    multi: {
+      tara: {},
+      tyler: {}
+    }
   });
   grunt.registerTask('series0', function () {
     var done = this.async();
@@ -26,9 +30,16 @@ module.exports = function (grunt) {
   grunt.registerTask('series2', function () {
     console.log('series2');
   });
+  grunt.registerTask('single', function () {
+    console.log(this);
+  });
+  grunt.registerMultiTask('multi', function () {
+    console.log(this);
+  });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.registerTask('nestedAlias', 'jshint')
-  grunt.registerTask('default', ['nestedAlias', 'series0']);
+  grunt.registerTask('deeplyNestedAlias', 'nestedAlias');
   grunt.registerTask('series', ['series0', 'series1', 'series2']);
+  grunt.registerTask('default', 'deeplyNestedAlias');
 };

@@ -4,7 +4,7 @@ const parseCommands = require('../../runner/lib/parse_commands');
 
 describe('parseCommands', function () {
 
-  var rawConfig = {
+  var config = expander.interface({
     single: {
       src: ['text/fixtures/files/*.js']
     },
@@ -15,42 +15,60 @@ describe('parseCommands', function () {
         src: ['test/fixtures/files/*.js']
       }
     }
-  };
-  var config = expander.interface(rawConfig);
+  });
 
-  var taskRegistry = {
+  var tasks = {
     single: new Task({
       name: 'single',
-      desc: 'Fake single task.',
+      desc: 'Single task.',
       type: 'single',
       fn: function () {}
     }),
     multi: new Task({
       name: 'multi',
-      desc: 'Fake multi task.',
+      desc: 'Multi task.',
       type: 'multi',
       fn: function () {}
     }),
     alias: new Task({
       name: 'alias',
-      desc: 'Fake alias task.',
+      desc: 'Alias task.',
       type: 'alias',
       fn: ['multi:targetTwo']
     }),
     nested_alias: new Task({
       name: 'nested_alias',
-      desc: 'Fake nested alias task.',
+      desc: 'Nested alias task.',
       type: 'alias',
       fn: ['alias']
+    }),
+    multi_alias: new Task({
+      name: 'multi_alias',
+      desc: 'Alias task to multi task.',
+      type: 'alias',
+      fn: ['multi']
     })
   };
 
-  var commands = ['single', 'multi', 'nested_alias', 'bad', 'multi:noTarget'];
-  var expandedCommands = ['single','multi','multi:targetTwo'];
+  it('should remove invalid task requests', function () {
+    var commands = parseCommands(config, tasks, ['empty']);
+    expect(commands).to.deep.equal([]);
 
-  it('should validate commands: expand aliases / remove invalid requests', function () {
-    var tasks = parseCommands(config, taskRegistry, commands);
-    expect(tasks).to.deep.equal(expandedCommands);
+    commands = parseCommands(config, tasks, ['invalid_alias']);
+    expect(commands).to.deep.equal([]);
+  });
+
+  it('should expand multi task commands without targets', function () {
+    var commands = parseCommands(config, tasks, ['multi']);
+    expect(commands).to.deep.equal(['multi:target','multi:targetTwo']);
+
+    commands = parseCommands(config, tasks, ['multi_alias']);
+    expect(commands).to.deep.equal(['multi:target','multi:targetTwo']);
+  });
+
+  it('should recursively resolve aliases', function () {
+    var commands = parseCommands(config, tasks, ['nested_alias']);
+    expect(commands).to.deep.equal(['multi:targetTwo']);
   });
 
 });

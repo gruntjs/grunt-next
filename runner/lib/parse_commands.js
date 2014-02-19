@@ -24,11 +24,11 @@ const parseCommands = function (config, tasks, commands) {
     var target = getCommandTarget(run);
 
     if (task.isMulti()) {
-      if(target && !taskConfig[target]) {
+      if (target && !taskConfig[target]) {
         console.log('Task "'+taskName+':'+target+'" not found.');
         return;
       }
-      if(!target) {
+      if (!target) {
         var targets = getTaskTargets(taskConfig, taskName);
         results.push(parseCommands(config, tasks, targets));
         return;
