@@ -39,7 +39,7 @@
     "chalk": "~0.4.0",
     "glob": "~3.2.8",
     "bluebird": "~1.0.4",
-    "expander": "~0.3.1",
+    "expander": "~0.3.2",
     "configfiles": "~0.3.1",
     "async": "~0.2.10",
     "dateformat": "~1.0.7-1.2.3",
@@ -60,6 +60,7 @@
     "grunt-contrib-jshint": "~0.8.0",
     "chai": "~1.9.0",
     "mocha": "~1.17.1",
-    "grunt": "~0.4.2"
+    "grunt": "~0.4.2",
+    "grunt-contrib-concat": "~0.3.0"
   }
 }

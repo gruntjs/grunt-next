@@ -1,5 +1,8 @@
 module.exports = function (grunt) {
   grunt.initConfig({
+    meta: {
+      pkg: require('./package.json'),
+    },
     jshint: {
       options: {
         jshintrc: '.jshintrc'
@@ -11,7 +14,19 @@ module.exports = function (grunt) {
     multi: {
       tara: {},
       tyler: {}
-    }
+    },
+    concat: {
+      options: {
+        banner: '/*! <%= meta.pkg.name %> - v<%= meta.pkg.version %>\n' +
+          ' *  License: <%= meta.pkg.licenses[0].type %>\n' +
+          ' *  Date: <%= grunt.template.today("yyyy-mm-dd") %>\n' +
+          ' */\n'
+      },
+      test: {
+        src: 'test/fixtures/files/*.js',
+        dest: 'tmp/concat.js'
+      }
+    },
   });
   grunt.registerTask('series0', function () {
     var done = this.async();
@@ -38,6 +53,7 @@ module.exports = function (grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.registerTask('nestedAlias', 'jshint')
   grunt.registerTask('deeplyNestedAlias', 'nestedAlias');
   grunt.registerTask('series', ['series0', 'series1', 'series2']);
