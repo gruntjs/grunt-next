@@ -17,14 +17,22 @@ function Grunt (env) {
   this.env = env;
   this.events = this;
   this.tasks = [];
+  this.option = expander.interface(this.env.argv);
+  legacy(this);
   EventEmitter2.call(this, {wildcard:true});
   bindMany(['loadTasks', 'loadNpmTasks'], this);
 }
 util.inherits(Grunt, EventEmitter2);
 
 Grunt.prototype.init =  function (data) {
-  this.config = expander.interface(data);
-  legacy(this);
+  this.config = expander.interface(data, {
+    imports: {
+      grunt: {
+        template: this.template,
+        option: this.option
+      }
+    }
+  });
 };
 Grunt.prototype.initConfig = Grunt.prototype.init;
 Grunt.prototype.package = pkg;
