@@ -11,7 +11,8 @@
 
 var grunt = {
   verbose: require('./log').verbose,
-  util: require('./util')
+  util: require('./util'),
+  option: function () { return false }
 };
 
 // Nodejs libs.
