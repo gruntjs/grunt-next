@@ -15,11 +15,13 @@ const parseCommands = function (config, tasks, commands) {
   var results = [];
   commands.forEach(function (run) {
     var taskName = getCommandTask(run);
-    var task = tasks[taskName];
-    if (!task) {
+
+    if(!tasks.hasOwnProperty(taskName)) {
       console.log('Task "'+taskName+'" is not found.');
       return;
     }
+
+    var task = tasks[taskName];
     var taskConfig = config.get(taskName);
     var target = getCommandTarget(run);
 
