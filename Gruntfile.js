@@ -54,7 +54,7 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.registerTask('nestedAlias', 'jshint')
+  grunt.registerTask('nestedAlias', 'jshint');
   grunt.registerTask('deeplyNestedAlias', 'nestedAlias');
   grunt.registerTask('series', ['series0', 'series1', 'series2']);
   grunt.registerTask('default', 'deeplyNestedAlias');
