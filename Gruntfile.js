@@ -9,7 +9,8 @@ module.exports = function (grunt) {
       },
       runner: ['runner/**/*.js'],
       task: ['task/**/*.js'],
-      tests: ['test/**/*.js']
+      tests: ['test/**/*.js'],
+      changed: '<%= watch.files.changed %>'
     },
     multi: {
       tara: {},
@@ -27,6 +28,29 @@ module.exports = function (grunt) {
         dest: 'tmp/concat.js'
       }
     },
+    watch: {
+      files: {
+        files: ['test/fixtures/**/*.js'],
+        tasks: ['series1', 'jshint:changed']
+      },
+      tasks: {
+        options: { spawn: true },
+        files: ['test/fixtures/tasks/*.js'],
+        tasks: ['series0']
+      },
+      custom: {
+        files: ['test/fixtures/**/*.js'],
+        // Specify a custom task runner of your choosing
+        tasks: function (target, options, done) {
+          // Get changed files
+          var changedFiles = grunt.config(target + '.changed');
+          // Do something custom
+          grunt.log.writeln('My custom task runner for ' + target);
+          // Call when done
+          done();
+        }
+      },
+    }
   });
   grunt.registerTask('series0', function () {
     var done = this.async();
@@ -51,6 +75,8 @@ module.exports = function (grunt) {
   grunt.registerMultiTask('multi', function () {
     console.log(this);
   });
+
+  grunt.loadTasks('watch');
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-concat');
