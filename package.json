@@ -54,7 +54,8 @@
     "iconv-lite": "~0.2.11",
     "colors": "~0.6.2",
     "nopt": "~2.2.0",
-    "coffee-script": "~1.7.1"
+    "coffee-script": "~1.7.1",
+    "gaze": "git://github.com/shama/gaze.git#v0.6"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.8.0",
