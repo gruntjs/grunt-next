@@ -35,42 +35,13 @@ Runner.prototype.run = function (request, options, cb) {
   });
 };
 
-// TODO: This could probably just use grunt.run the orchestrator instance is exposed
 Runner.prototype.nospawn = function (request, options, cb) {
-  var self = this;
-  this.grunt.emit('run.request', request);
-
-  // remove invalid requests / resolve aliases / expand multi tasks
-  var commands = parseCommands(this.grunt.config, this.grunt.tasks, request);
-  this.grunt.emit('run.parseCommands', commands);
-
-  // group commands by their root task
-  var indexedCommands = indexCommands(commands);
-  this.grunt.emit('run.indexCommands', indexedCommands);
-
-  // build a listing of tasks to put into orchestrator
-  var taskList = buildTaskList(this.grunt.config, this.grunt.tasks, indexedCommands);
-  this.grunt.emit('run.buildTaskList', taskList);
-
-  // build an orchestration
-  this.runner = new Orchestrator();
-  taskList.forEach(function (task) {
-    self.runner.add(task.name, task.method);
-  });
-
-  // emit some stuff (this.grunt will be cleaned up in the next v of orchestrator)
-  this.runner.on('task_start', function (e) {
-    // this.grunt will not be reliable when running tasks concurrently!
-    self.grunt.task.current = self.runner.tasks[e.task].fn.context;
-    self.grunt.emit('task_start', e);
-  });
-  this.runner.on('task_stop', function (e) {
-    self.grunt.task.current = null;
-    self.grunt.emit('task_stop', e);
-  });
-
-  // run it!
-  this.runner.start(commands, cb);
+  var grunt = this.grunt;
+  var runner = this.runner;
+  var commands = grunt.parseCommands(request);
+  var taskList = grunt.buildTasks(commands);
+  runner = grunt.buildRunner(taskList);
+  runner.start(commands, cb);
 };
 
 Runner.prototype.spawn = function (request, options, cb) {

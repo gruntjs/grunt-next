@@ -57,21 +57,26 @@ Grunt.prototype.renameTask = function (oldName, newName) {
   console.log(oldName, newName);
 };
 
-Grunt.prototype.run = function (request) {
-  this.emit('run.request', request);
-
+Grunt.prototype.parseCommands = function (request) {
   // remove invalid requests / resolve aliases / expand multi tasks
   var commands = parseCommands(this.config, this.tasks, request);
   this.emit('run.parseCommands', commands);
+  // return em
+  return commands;
+};
 
+Grunt.prototype.buildTasks = function (commands) {
   // group commands by their root task
   var indexedCommands = indexCommands(commands);
   this.emit('run.indexCommands', indexedCommands);
-
   // build a listing of tasks to put into orchestrator
   var taskList = buildTaskList(this.config, this.tasks, indexedCommands);
   this.emit('run.buildTaskList', taskList);
+  // return em
+  return taskList;
+};
 
+Grunt.prototype.buildRunner = function (taskList) {
   // build an orchestration
   var runner = new Orchestrator();
   taskList.forEach(function (task) {
@@ -89,7 +94,13 @@ Grunt.prototype.run = function (request) {
     this.emit('task_stop', e);
   }.bind(this));
 
-  // run it!
+  return runner;
+};
+
+Grunt.prototype.run = function (request) {
+  var commands = this.parseCommands(request);
+  var taskList = this.buildTasks(commands);
+  var runner = this.buildRunner(taskList);
   runner.start(commands);
 };
 
