@@ -25,30 +25,32 @@ cli.on('requireFail', function (name, err) {
   console.log('Unable to require external module:', name, err);
 });
 
-cli.launch(function () {
-  var argv = this.argv;
+cli.launch(handler);
+
+function handler (env) {
+  var argv = env.argv;
   var tasks = argv._;
   var commands = tasks.length ? tasks : ['default'];
 
-  if (!this.configPath) {
+  if (!env.configPath) {
     console.log('No Gruntfile found.');
     process.exit(1);
   }
-  if (!this.modulePath) {
+  if (!env.modulePath) {
     console.log('No local installation of grunt-next found.');
     process.exit(1);
   }
 
-  var Grunt = require(this.modulePath);
-  if(process.cwd != this.cwd) {
-    process.chdir(this.cwd);
+  var Grunt = require(env.modulePath);
+  if(process.cwd != env.cwd) {
+    process.chdir(env.cwd);
   }
 
   var grunt = new Grunt(this);
   logEvents(grunt);
   require(this.configPath)(grunt);
   grunt.run(commands);
-});
+};
 
 function formatError (e) {
   if (!e.err) return e.message;
