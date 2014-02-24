@@ -13,6 +13,9 @@ module.exports = function (input, node_module) {
     input = [input];
   }
   return _.flatten(input.map(function (task) {
+    if(task === 'grunt-contrib-watch') {
+      return [path.join(__dirname,'..','..','watch','index.js')];
+    }
     if (node_module) {
       taskDir = path.resolve('node_modules', task, 'tasks');
     } else {
