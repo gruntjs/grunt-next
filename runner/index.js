@@ -18,9 +18,9 @@ function Grunt (env) {
   this.events = this;
   this.tasks = [];
   this.option = expander.interface(this.env.argv);
-  legacy(this);
   EventEmitter2.call(this, {wildcard:true});
   bindMany(['loadTasks', 'loadNpmTasks'], this);
+  legacy(this);
 }
 util.inherits(Grunt, EventEmitter2);
 

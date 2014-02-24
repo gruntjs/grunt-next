@@ -8,4 +8,10 @@ module.exports = function (grunt) {
   grunt.fail = require('./lib/fail');
   grunt.warn = grunt.log.warn;
   grunt.task = {};
+
+  var taskMethods = ['register', 'registerTask', 'registerMultiTask',
+                     'loadTasks', 'loadNpmTasks', 'renameTask'];
+  taskMethods.forEach(function (method) {
+    grunt.task[method] = grunt[method];
+  });
 };
