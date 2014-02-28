@@ -22,7 +22,7 @@ const parseCommands = function (config, tasks, commands) {
     }
 
     var task = tasks[taskName];
-    var taskConfig = config.get(taskName);
+    var taskConfig = config.getRaw(taskName);
     var target = getCommandTarget(run);
 
     if (task.isMulti()) {

@@ -3,6 +3,7 @@ module.exports = function (grunt) {
     meta: {
       pkg: require('./package.json'),
     },
+    tests: 'tests/fixtures',
     jshint: {
       options: {
         jshintrc: '.jshintrc'
@@ -21,11 +22,16 @@ module.exports = function (grunt) {
         banner: '/*! <%= meta.pkg.name %> - v<%= meta.pkg.version %>\n' +
           ' *  License: <%= meta.pkg.licenses[0].type %>\n' +
           ' *  Date: <%= grunt.template.today("yyyy-mm-dd") %>\n' +
+          ' *  Target: <%= grunt.task.current.target %>\n' +
           ' */\n'
       },
       test: {
         src: 'test/fixtures/files/*.js',
         dest: 'tmp/concat.js'
+      },
+      dude: {
+        src: 'test/fixtures/files/*.js',
+        dest: 'tmp/dude.js'
       }
     },
     watch: {
@@ -77,11 +83,11 @@ module.exports = function (grunt) {
   });
 
   grunt.loadTasks('watch');
-
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.registerTask('nestedAlias', 'jshint');
   grunt.registerTask('deeplyNestedAlias', 'nestedAlias');
   grunt.registerTask('series', ['series0', 'series1', 'series2']);
   grunt.registerTask('default', 'deeplyNestedAlias');
+
 };

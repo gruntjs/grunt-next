@@ -1,9 +1,9 @@
 module.exports = function (grunt) {
-  const gaze = require('gaze');
   const _ = require('lodash');
   const runner = require('./lib/runner.js')(grunt);
 
   grunt.registerMultiTask('watch', function() {
+    var gaze = require('gaze');
     var name = this.name || 'watch';
     var files = this.data.files;
     var tasks = this.data.tasks;

@@ -11,7 +11,8 @@ const cli = new Liftoff({
   moduleName: 'grunt-next',
   configName: 'Gruntfile',
   processTitle: 'grunt-next',
-  cwdFlag: 'base'
+  cwdFlag: 'base',
+  searchHome: true
 })
 
 cli.on('require', function (name, module) {
@@ -46,9 +47,19 @@ function handler (env) {
     process.chdir(env.cwd);
   }
 
-  var grunt = new Grunt(this);
+  var grunt = new Grunt(env);
   logEvents(grunt);
-  require(this.configPath)(grunt);
+
+  if (grunt.option('debug')) {
+    grunt.on('run.*', function (msg) {
+      console.log(this.event, msg);
+    });
+    grunt.on('register', function (msg) {
+      console.log(this.event, msg);
+    });
+  }
+
+  require(env.configPath)(grunt);
   grunt.run(commands);
 };
 
@@ -59,10 +70,6 @@ function formatError (e) {
 }
 
 function logEvents (emitter) {
-
-  emitter.on('run.*', function (msg) {
-    console.log(this.event, msg);
-  });
 
   emitter.on('task_start', function (e) {
     console.log('Running', "'"+chalk.cyan(e.task)+"'...");

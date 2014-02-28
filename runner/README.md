@@ -3,6 +3,6 @@
 ### Responsibilities
 
 * Maintain a registry of tasks.
-* Provide help system.
+* Construct configurations for tasks.
 * Validate commands and orchestrate task running.
-
+* Provide help system.

@@ -83,14 +83,11 @@ Grunt.prototype.buildRunner = function (taskList) {
     runner.add(task.name, task.method);
   });
 
-  // emit some stuff (this will be cleaned up in the next v of orchestrator)
+  // emit some stuff (the next v of orchestrator uses ee2)
   runner.on('task_start', function (e) {
-    // this will not be reliable when running tasks concurrently!
-    this.task.current = runner.tasks[e.task].fn.context;
     this.emit('task_start', e);
   }.bind(this));
   runner.on('task_stop', function (e) {
-    this.task.current = null;
     this.emit('task_stop', e);
   }.bind(this));
 

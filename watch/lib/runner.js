@@ -2,9 +2,6 @@ const inherits = require('util').inherits;
 const EE = require('events').EventEmitter;
 const spawn = require('child_process').spawn;
 const Orchestrator = require('orchestrator');
-const parseCommands = require('../../runner/lib/parse_commands');
-const indexCommands = require('../../runner/lib/index_commands');
-const buildTaskList = require('../../runner/lib/build_task_list');
 
 function Runner (grunt) {
   if (!(this instanceof Runner)) { return new Runner(grunt); }

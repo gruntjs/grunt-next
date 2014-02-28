@@ -23,24 +23,23 @@
   "bin": {
     "gn": "bin/index.js"
   },
-  "main": "runner/index",
   "engines": {
     "node": ">= 0.10.0"
   },
+  "main": "runner/index",
   "scripts": {
     "test": "mocha -R spec test/index.js"
   },
   "keywords": [],
   "dependencies": {
-    "liftoff": "~0.8.7",
+    "liftoff": "~0.9.3",
     "lodash": "~2.4.1",
     "pretty-hrtime": "~0.2.0",
     "orchestrator": "~0.3.3",
     "chalk": "~0.4.0",
     "glob": "~3.2.8",
     "bluebird": "~1.0.4",
-    "expander": "~0.3.2",
-    "configfiles": "~0.3.1",
+    "configfiles": "~0.3.2",
     "async": "~0.2.10",
     "dateformat": "~1.0.7-1.2.3",
     "eventemitter2": "~0.4.13",
@@ -55,7 +54,8 @@
     "colors": "~0.6.2",
     "nopt": "~2.2.0",
     "coffee-script": "~1.7.1",
-    "gaze": "git://github.com/shama/gaze.git#v0.6"
+    "gaze": "git://github.com/shama/gaze.git#v0.6",
+    "expander": "~0.3.3"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.8.0",
