@@ -10,7 +10,7 @@
 'use strict';
 
 var grunt = {
-  util: require('./util'),
+  util: require('grunt-legacy-util'),
   option: require('./option'),
   fail: 0
 };

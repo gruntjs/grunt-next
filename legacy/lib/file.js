@@ -11,7 +11,7 @@
 
 var grunt = {
   verbose: require('./log').verbose,
-  util: require('./util'),
+  util: require('grunt-legacy-util'),
   option: function () { return false }
 };
 
