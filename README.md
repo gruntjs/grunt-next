@@ -2,8 +2,9 @@
 > v1.0 alpha
 
 ### Install
-1. `npm install -g grunt-next` (for cli)
-2. `npm install --save-dev grunt-next` (in your project)
+1. Clone repo.
+2. From repo dir: `sudo npm link`
+2. From project to test: `npm link grunt-next`
 3. run `gn`
 
 ### Powered by:
