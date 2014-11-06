@@ -1,4 +1,3 @@
-require('mocha');
 global.expect = require('chai').expect;
 
 describe('Runner', function () {
@@ -12,8 +11,10 @@ describe('Runner', function () {
   require('./runner/parse_commands');
   require('./runner/parse_register');
 });
-
+/*
 describe('Task', function () {
   require('./task/build_context');
   require('./task/build_method');
+  require('./task/command_data');
 });
+*/

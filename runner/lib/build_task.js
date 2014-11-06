@@ -9,13 +9,7 @@ module.exports = function (config, task, command) {
   // using a mocked context at the time the task is constructed.
   var context = task.commandData(command);
   var taskConfig = config.get(task.name, {
-    imports: {
-      grunt: {
-        task: {
-          current: context
-        }
-      }
-    }
+    imports: { grunt: { task: { current: context } } }
   });
 
   if(task.isMulti()) {

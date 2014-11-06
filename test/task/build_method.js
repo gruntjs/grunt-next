@@ -1,4 +1,5 @@
-const buildMethod = require('../../task/lib/build_method');
+const expect = require('chai').expect;
+const Task = require('../../task');
 const Promise = require('bluebird');
 
 describe('buildMethod', function () {
