@@ -1,7 +1,7 @@
 {
   "name": "grunt-next",
   "description": "Grunt Next",
-  "version": "0.2.0",
+  "version": "1.0.0 alpha",
   "homepage": "https://github.com/gruntjs/grunt-next",
   "author": {
     "name": "Tyler Kellen",
@@ -50,14 +50,14 @@
     "nopt": "~2.2.0",
     "coffee-script": "~1.7.1",
     "expander": "~0.3.3",
-    "grunt-legacy-util": "~0.1.2",
+    "grunt-legacy-util": "~0.2.0",
     "gaze": "0.5.1"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-contrib-jshint": "~0.11.3",
     "chai": "~1.9.0",
     "mocha": "~1.17.1",
-    "grunt": "~0.4.2",
+    "grunt": "~0.4.5",
     "grunt-contrib-concat": "~0.3.0"
   }
 }
